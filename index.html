@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+	<meta charset="UTF-8">
+	<title>HTML Formulář</title>
+</head>
+<body>
+  <form id="zadani">
+    Podnadpis<br>
+    <input type="text" id="podnadpis" size="78" oninput="zpracovani();"><br>
+    Tučně<br>
+    <input type="text" id="tucne" size="78" oninput="zpracovani();"><br>
+    Položky<br>
+    <textarea id="odrazky" rows="15" cols="80" oninput="zpracovani();"></textarea><br>
+    Výstup<br>
+    <textarea id="vystup" rows="20" cols="80"></textarea><br>
+    <input type="reset"value="Vyčistit">
+  </form>
+  <script>
+    function zpracovani(){
+      var odrazky = document.getElementById("odrazky").value.split("\n");
+      var vystup="";
+      document.getElementById("vystup").value=""
+      /*
+      rozdeleni polozek do pole
+      */
+      odrazky.forEach(polozkovani);
+      function polozkovani(polozka) {
+        if (polozka!=""){
+          vystup+="<li>"+polozka.trim()+"</li>\n";
+        }
+      }
+      /*
+      Zapisovani do textarea
+      */
+      if (document.getElementById("podnadpis").value!=""){
+        document.getElementById("vystup").value+="<h3>"+document.getElementById("podnadpis").value.trim()+"</h3></br>\n";
+      }
+      if (document.getElementById("tucne").value!=""){
+        document.getElementById("vystup").value+="<b>"+document.getElementById("tucne").value.trim()+"</b></br>\n";
+      }
+      if (document.getElementById("odrazky").value!=""){
+        document.getElementById("vystup").value+="<ul>\n";
+        document.getElementById("vystup").value+=vystup;
+        document.getElementById("vystup").value+="<ul>\n";
+      }
+      /*
+      Zkopirovani do schranky
+      */
+      navigator.clipboard.writeText(document.getElementById("vystup").value).then();
+    }
+	</script>
+</body>
+</html>
