@@ -3,21 +3,80 @@
 <head>
 	<meta charset="UTF-8">
 	<title>HTML Formulář</title>
+	<style type="text/css">
+		#zadani{
+			width: 1500px;
+		}
+		#vrsek{
+		  height: 100px;
+		}
+		#spodek{
+		}
+		#vlevo{
+			width: 740px;
+			float: left;
+		}
+		#vpravo{
+			width: 740px;
+			height: 800px;
+			float: right;
+		}
+		#tlacitka{
+			width: 720px;
+			height: 100px;
+		}
+		#vycistit{
+			float: left;
+			width: 300px;
+			height: 80px;
+			font-size: 30px;
+			font-weight: bold;
+		}
+		#copy_all{
+			float: right;
+			width: 300px;
+			height: 80px;
+			font-size: 30px;
+			font-weight: bold;
+		}
+	</style>
 </head>
-<body>
+
   <form id="zadani">
-    Podnadpis<br>
-    <input type="text" id="podnadpis" size="78" oninput="zpracovani();"><br>
-    Tučně<br>
-    <input type="text" id="tucne" size="78" oninput="zpracovani();"><br>
-    Položky<br>
-    <textarea id="odrazky" rows="15" cols="80" oninput="zpracovani();"></textarea><br>
-    Výstup<br>
-    <textarea id="vystup" rows="20" cols="80"></textarea><br>
-    <input type="reset"value="Vyčistit">
+		<div id="vlevo">
+			<div id="vrsek">
+		    Podnadpis<br>
+		    <input type="text" id="podnadpis" size="87" oninput="zpracovani();" tabindex="1">
+				<input type="checkbox" id="ch_podnadpis" value="false">
+				<input type="button" id="copy_podnadpis" value="Kopírovat" onclick="zkopiruj('podnadpis');">
+		    Tučně<br>
+		    <input type="text" id="tucne" size="87" oninput="zpracovani();" tabindex="2">
+				<input type="checkbox" id="ch_tucne" value="false">
+				<input type="button" id="copy_tucne" value="Kopírovat" onclick="zkopiruj('tucne');">
+			</div>
+			<div id="spodek">
+		    Položky<br>
+		    <textarea id="odrazky" rows="15" cols="89" oninput="zpracovani();" tabindex="3"></textarea><br>
+		    Výstup<br>
+		    <textarea id="vystup" rows="20" cols="89"></textarea><br>
+				<div id="tlacitka">
+					<input type="button" id="vycistit" value="Vyčistit" onclick="vycisti();">
+					<input type="button" id="copy_all" value="Kopírovat vše" onclick="zkopiruj('all');" tabindex="4">
+				</div>
+			</div>
+		</div>
+		<div id="vpravo">
+			Poznámky<br>
+			<textarea id="ta_poznamky" rows="49" cols="80"></textarea>
+		</div>
+
   </form>
+
   <script>
-    function zpracovani(){
+		/*
+		Prubezne zapisovani do textarea
+		*/
+		function zpracovani(){
       var odrazky = document.getElementById("odrazky").value.split("\n");
       var vystup="";
       document.getElementById("vystup").value=""
@@ -44,11 +103,36 @@
         document.getElementById("vystup").value+=vystup;
         document.getElementById("vystup").value+="<ul>\n";
       }
-      /*
-      Zkopirovani do schranky
-      */
-      navigator.clipboard.writeText(document.getElementById("vystup").value).then();
+		}
+
+		/*
+		Zkopirovani do schranky
+		*/
+		function zkopiruj(co) {
+			if(co=="podnadpis"){
+				navigator.clipboard.writeText(document.getElementById("podnadpis").value).then();
+			}
+			else if(co=="tucne"){
+				navigator.clipboard.writeText(document.getElementById("tucne").value).then();
+			}
+			else {
+				navigator.clipboard.writeText(document.getElementById("vystup").value).then();
+			}
     }
+
+		/*
+		Vycisteni formulare
+		*/
+		function vycisti(){
+			if (document.getElementById("ch_podnadpis").checked==false){
+				document.getElementById("podnadpis").value="";
+			}
+			if (document.getElementById("ch_tucne").checked==false){
+				document.getElementById("tucne").value="";
+			}
+			document.getElementById("odrazky").value="";
+			document.getElementById("vystup").value="";
+		}
 	</script>
 </body>
 </html>
