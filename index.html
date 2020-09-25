@@ -166,7 +166,15 @@
 				document.getElementById("vystup").value+="<h3>"+document.getElementById("podnadpis").value.trim()+"</h3><br />\n";
 			}
 			if (document.getElementById("popis").value!=""){
-				document.getElementById("vystup").value+=document.getElementById("popis").value.trim()+"<br />\n";
+				popisky_out="";
+				var popisky = document.getElementById("popis").value.split("\n");
+				popisky.forEach(popiskovani);
+			  function popiskovani(polozka) {
+				 if (polozka!=""){
+					 popisky_out+=polozka.trim()+"<br />\n";
+				 }
+			 }
+				document.getElementById("vystup").value+=popisky_out;
 			}
 			for(i=1; i<=5; i++){
 				vystup="";
